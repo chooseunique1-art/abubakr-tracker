@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { loadStages, saveStages, isShared } from "./storage";
+import { loadStages, saveStages } from "./storage";
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
@@ -304,9 +304,8 @@ export default function GermanyTracker() {
           style={mono}
           className="text-[11px] text-[#6d7480] text-center mt-9 leading-relaxed"
         >
-          {isShared
-            ? "Saved for everyone with this link — the family sees the same timeline."
-            : "Saved on this device only. Add a shared bin to sync the family."}
+          Saved for everyone with this link — the family sees the same
+          timeline.
         </div>
       </div>
     </div>

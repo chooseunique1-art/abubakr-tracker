@@ -23,25 +23,24 @@ Open the URL it prints (usually http://localhost:5173).
 
 Build command: `npm run build` · Output directory: `dist`
 
-## Sharing the timeline with the family
+## Shared storage (required)
 
-By default the tracker saves in the browser it's opened in, so only that
-device sees the entries. To let the whole family see one shared timeline:
+The tracker stores the timeline in Redis via `/api/stages`, a Vercel
+serverless function, so everyone who opens the link sees the same entries.
 
-1. Create a free account at https://jsonbin.io
-2. Create a new bin whose contents are exactly: `[]`
-3. Copy the **Bin ID** and your **Master Key**.
-4. In Vercel, open **Project Settings > Environment Variables** and add:
-
-   - `VITE_BIN_ID` — the bin ID
-   - `VITE_BIN_KEY` — the master key
-
-5. Redeploy.
-
-The footer of the page tells you which mode is active.
+1. In the Vercel dashboard, open the project, then **Storage > Create
+   Database > Redis** (powered by Upstash) and connect it to this project.
+   Vercel injects `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`
+   automatically — no manual env vars needed.
+2. Redeploy so the function picks up the new env vars.
 
 Note: anyone with the link can add or edit steps. That's usually fine for a
 family page. Don't put anything private in the notes.
+
+`npm run dev` alone won't serve `/api/stages` (Vite doesn't run serverless
+functions). Use `vercel dev` instead if you want shared storage while
+developing locally, or expect load/save to fail with "Could not reach the
+shared timeline" until deployed.
 
 ## Editing the page
 
